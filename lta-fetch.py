@@ -15,7 +15,7 @@ parser.add_option("-n", "--njobs", action="store", type="int", dest="ncpus", def
 
 def countdown(wait):
 	"""Funky countdown timer"""
-	for remaining in range(wait, 0, -1):
+	for remaining in range(wait, -1, -1):
 	    sys.stdout.write("\r")
 	    sys.stdout.write("Will attempt to fetch files in {:3d} seconds...".format(remaining)) 
 	    sys.stdout.flush()
