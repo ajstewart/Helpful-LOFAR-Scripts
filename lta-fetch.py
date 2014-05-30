@@ -17,7 +17,7 @@ def countdown(wait):
 	"""Funky countdown timer"""
 	for remaining in range(wait, 0, -1):
 	    sys.stdout.write("\r")
-	    sys.stdout.write("Will attempt to fetch files in {:02d} seconds...".format(remaining)) 
+	    sys.stdout.write("Will attempt to fetch files in {:3d} seconds...".format(remaining)) 
 	    sys.stdout.flush()
 	    time.sleep(1)
 
@@ -49,6 +49,11 @@ for j in range(options.attempts):
 		print "All files obtained!"
 		break
 	else:
-		print "{0} files to remain to fetch"
+		print "{0} files to remain to fetch:".format(len(tofetch))
+		print "----------------------------------------"
+		for g in tofetch:
+			print g.split("/")[-1]
+		print "----------------------------------------"
 		countdown(options.delay)
+		print "\n"
 		workers.map(fetch, tofetch)
