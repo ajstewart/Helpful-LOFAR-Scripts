@@ -8,6 +8,7 @@ description="Script to quickly fetch data from the LTA using wget. Currently doe
 vers="1.0"
 
 parser = optparse.OptionParser(usage=usage, version="%prog v{0}".format(vers), description=description)
+parser.add_option("--check-only", action="store_true", dest="checkonly", default=False, help="Perform a check for missing data only [default: %default].")
 parser.add_option("-c", "--check-attempts", action="store", type="int", dest="attempts", default=10, help="How many attempts to fetch missing files [default: %default].")
 parser.add_option("-d", "--delay", action="store", type="int", dest="delay", default=120, help="Time between each fetch attempt [default: %default].")
 parser.add_option("-n", "--njobs", action="store", type="int", dest="ncpus", default=5, help="How many to attempt to fetch at once [default: %default].")
@@ -36,8 +37,11 @@ for file in files:
 	initfetch+=[i.rstrip('\n') for i in f]
 	f.close()
 
-#perform initial fetch of all data
-workers.map(fetch, initfetch)
+#perform initial fetch of all data if not checkonly
+if not options.checkonly:
+	workers.map(fetch, initfetch)
+else:
+	print "Performing check for missing files only"
 
 #loop to check for missing files from the list
 for j in range(options.attempts):
