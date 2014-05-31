@@ -25,7 +25,7 @@ def countdown(wait):
 def fetch(file):
 	"""Simple wget get line"""
 	print "Fetching {0}...".format(file.split("/")[-1])
-	subprocess.call("wget {0} > 2>&1".format(file), shell=True)
+	subprocess.call("wget {0} > /dev/null 2>&1".format(file), shell=True)
 	
 workers=Pool(processes=options.ncpus)
 
@@ -49,11 +49,11 @@ for j in range(options.attempts):
 	print "Running Missing File Check {0} of {1}".format(j+1, options.attempts)
 	tofetch=[k for k in initfetch if not os.path.isfile(k.split('lofigrid/')[-1].replace('/', '%2F'))]
 	if len(tofetch) < 1:
-		print "0 files remaining"
+		print "0 files remain to fetch"
 		print "All files obtained!"
 		break
 	else:
-		print "{0} files to remain to fetch:".format(len(tofetch))
+		print "{0} files remain to fetch:".format(len(tofetch))
 		print "----------------------------------------"
 		for g in tofetch:
 			print g.split("/")[-1]
